@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guadalajara, Puebla & Mexico City Universities - Engineering Programs Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1em;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            background: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .tab.active {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .university-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .university-header {
+            margin-bottom: 20px;
+        }
+        
+        .university-name {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .badge.public {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .badge.private {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .cost-headline {
+            font-size: 1.3em;
+            color: #0066cc;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin: 25px 0;
+        }
+        
+        .section-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+        }
+        
+        .list-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .photos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .photo-container {
+            text-align: center;
+        }
+        
+        .photo-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .photo-caption {
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .link {
+            color: #0066cc;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        
+        .link:hover {
+            text-decoration: underline;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .comparison-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .comparison-card h4 {
+            color: #0066cc;
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .photos {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                width: 100%;
+            }
+        }
+        
+        .placeholder {
+            background: #e0e0e0;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Guadalajara, Puebla & Mexico City University Comparison</h1>
+            <p class="subtitle">
+                Engineering, physics, and chemistry programs across ten universities in Guadalajara, Puebla, and Mexico City 
+                discussed for a prospective engineering student. Select a tab to see cost, programs, findings, financial aid, 
+                and campus information for each school.
+            </p>
+        </header>
+        
+        <div class="tabs" id="universityTabs"></div>
+        <div id="tabsContent"></div>
+    </div>
+    
+    <script>
+        const universities = [
+            {
+                id: "udeg",
+                name: "Universidad de Guadalajara — CUCEI",
+                shortName: "UdeG / CUCEI",
+                city: "Guadalajara",
+                type: "Public",
+                costHeadline: "~$1,570 MXN / semester (national tuition + fees)",
+                costDetail: [
+                    "Official 2026 national undergraduate matrícula is $201 MXN.",
+                    "Common enrollment, aportación and hologram fees bring the published estimate to about $1,570 MXN per semester.",
+                    "Engineering/science materials and equipment add roughly $5,000-$10,000 MXN per year, separate from tuition."
+                ],
+                faculties: [
+                    "Física (Physics)",
+                    "Química (Chemistry)",
+                    "Ingeniería Química",
+                    "Ingeniería Civil",
+                    "Materials Science",
+                    "Mecánica Eléctrica"
+                ],
+                description: [
+                    "CUCEI is UdeG's dedicated science and engineering center, with separate departments for Physics, Chemistry, and multiple engineering disciplines plus graduate and PhD programs in physical sciences.",
+                    "It is the strongest local option for a named, research-oriented Physics or Chemistry degree at public-university cost."
+                ],
+                becas: [
+                    "Beca Excelencia: for students with a strong record and demonstrated economic need; minimum average 8.5 in exact sciences/engineering.",
+                    "Beca Manutención and Beca Inicia tu Carrera for students already in PROSPERA or similar federal support programs.",
+                    "Programa Grodman de Becas de Excelencia Académica: US $1,250 per semester for outstanding students with financial need, open to exact sciences and engineering.",
+                    "Programa de Estímulos Económicos a Estudiantes Sobresalientes: ~$4,000 MXN/month for 10 months for outstanding undergraduates."
+                ],
+                website: "https://www.cucei.udg.mx/",
+                facultyLinks: [
+                    { name: "Departamento de Física", url: "https://www.cucei.udg.mx/es/carreras/licenciatura-en-fisica" },
+                    { name: "Departamento de Química", url: "https://www.cucei.udg.mx/es/carreras/quimica" },
+                    { name: "Ingeniería Química", url: "https://www.cucei.udg.mx/es/carreras/ingenieria-quimica" },
+                    { name: "Ingeniería Civil", url: "https://www.cucei.udg.mx/es/carreras/ingenieria-civil" }
+                ],
+                entranceProcess: [
+                    "Admission by entrance exam (similar to BUAP process, administered by UdeG)",
+                    "Monitor www.escolar.udg.mx for official convocatoria publication (typically February-March 2027)",
+                    "Registration period: April-May 2027",
+                    "Entrance exam: June 2027",
+                    "Results published: Late July 2027",
+                    "Enrollment and class start: August 2027"
+                ],
+                whenToStart: "Begin preparing in January 2027; watch for convocatoria in February-March 2027",
+                expertOpinions: [
+                    {
+                        title: "🏆 Top-Tier Programs (CACEI Level 1 - Highest Quality)",
+                        items: [
+                            "Ingeniería Civil - 5 consecutive CACEI reaccreditations, Level 1 EGEL. Strong construction/infrastructure industry demand.",
+                            "Ingeniería Industrial - 4 consecutive reaccreditations. Versatile career applicable across all industries.",
+                            "Ingeniería Mecánica Eléctrica - 3 consecutive reaccreditations. Critical for manufacturing, automotive, energy sectors.",
+                            "Ingeniería en Alimentos y Biotecnología - 4 consecutive reaccreditations. Growing pharmaceutical/food industry demand."
+                        ]
+                    },
+                    {
+                        title: "🌟 Elite International Programs",
+                        items: [
+                            "Ingeniería Química - CACEI International accreditation (only engineering program at CUCEI with this). High demand in chemical, pharmaceutical, petroleum industries.",
+                            "Licenciatura en Química - ABET accredited (US-based, globally recognized). One of few chemistry programs in Mexico with international accreditation. Excellent for graduate school or international careers."
+                        ]
+                    },
+                    {
+                        title: "🚀 High-Demand Emerging Programs (Regional Deficit: 4,000-5,000 Engineers/Year)",
+                        items: [
+                            "Ingeniería en Ciencia de Materiales (CAPEF accredited) - Critical for semiconductors, aerospace, automotive, nanotechnology. Students working by 4th semester.",
+                            "Ingeniería Fotónica - UNIQUE IN LATIN AMERICA. Cutting-edge: telecommunications, renewable energy, medical technology. High international demand.",
+                            "Ingeniería en Topografía Geomática - Essential for urban development, infrastructure, GIS technology. Very high employment rate.",
+                            "Licenciatura en Física (CAPEF reaccredited 2024) - Foundation for semiconductor industry. Research-oriented with 353 SNI faculty members. Excellent for graduate studies."
+                        ]
+                    },
+                    {
+                        title: "⚡ Brand New Programs 2024 (Cutting-Edge Industry Needs)",
+                        items: [
+                            "Ingeniería en Mecatrónica Inteligente - AI + robotics + automation for Industry 4.0",
+                            "Ingeniería en Electromovilidad y Autotrónica - Electric vehicles (EV industry boom in Mexico)",
+                            "Ingeniería Robótica - Automation and smart manufacturing"
+                        ]
+                    },
+                    {
+                        title: "💼 Employment Statistics (Official 2025 CUCEI Report)",
+                        items: [
+                            "99% of graduates employed on graduation day",
+                            "68% terminal efficiency (completion rate)",
+                            "Annual job fair attracts 120+ companies including IBM, Bosch, Jabil, HP",
+                            "Strong linkage with Guadalajara's tech/manufacturing clusters (Distrito CUCEI initiative)"
+                        ]
+                    },
+                    {
+                        title: "📊 Recommendations by Career Goal",
+                        items: [
+                            "For Research/Academia → Physics, Chemistry, Ciencia de Materiales",
+                            "For Industry 4.0 → Mecatrónica Inteligente, Robótica, Fotónica",
+                            "For Traditional Engineering → Civil, Industrial, Mecánica Eléctrica",
+                            "For Emerging Tech → Fotónica, Ciencia de Materiales, Electromovilidad",
+                            "For Chemistry/Pharma → Química, Ingeniería Química, Alimentos y Biotecnología"
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "tecgdl",
+                name: "Tec de Monterrey — Campus Guadalajara",
+                shortName: "Tec Guadalajara",
+                city: "Guadalajara",
+                type: "Private",
+                costHeadline: "~$167,000–$178,000 MXN / semester (credit-based)",
+                costDetail: [
+                    "Billed per credit: $3,925 MXN (Engineering), $4,175 MXN (Architecture).",
+                    "Typical engineering semester load is 42.5–46 credits, one Architecture semester is 43 credits.",
+                    "One-time admission fee: $12,520 MXN. New-student service fee: $9,640 MXN. Per-semester activity/services fee: $3,430 MXN.",
+                    "Annual estimate is $344,000–$366,000 MXN for Engineering, $356,000 MXN for Architecture."
+                ],
+                faculties: [
+                    "Ingeniería en Robótica y Sistemas Digitales",
+                    "Ingeniería en Electrónica y Tecnologías de Manufactura",
+                    "Ingeniería Industrial y de Sistemas",
+                    "Ingeniería en Computación",
+                    "Ingeniería en Mecatrónica",
+                    "Licenciatura en Arquitectura"
+                ],
+                description: [
+                    "Tec's Guadalajara campus offers six engineering programs plus Architecture. No standalone Physics or Chemistry degree is listed, but robust STEM coursework and international recognition make it the top private technical university in Guadalajara.",
+                    "The Tec system emphasizes applied innovation, entrepreneurship, and bilingual instruction. Many courses are taught fully in English."
+                ],
+                becas: [
+                    "Beca Líderes del Mañana: merit-based up to 100% tuition coverage for top academic/leadership profile; requires average 9.0+ and proof of financial need.",
+                    "Beca Excelencia Académica: 10–90% based on high school average and admission exam. Requirements renew each semester (maintain 85+ average).",
+                    "Beca Talento: covers 10–50% for extracurricular achievements (sports, arts, community service).",
+                    "Financing plans via partner banks (Santander, BBVA, Scotiabank) with monthly installments over 24–48 months."
+                ],
+                website: "https://tec.mx/es/guadalajara",
+                facultyLinks: [
+                    { name: "School of Engineering and Sciences", url: "https://tec.mx/es/ingenieria-y-ciencias" },
+                    { name: "Robótica y Sistemas Digitales", url: "https://tec.mx/es/carreras-profesionales/ingeniero-en-robotica-y-sistemas-digitales" },
+                    { name: "Mecatrónica", url: "https://tec.mx/es/carreras-profesionales/ingeniero-en-mecatronica" }
+                ],
+                entranceProcess: [
+                    "Rolling admissions with multiple entry periods (August, January)",
+                    "No entrance exam required - admission based on high school grades, PAA (Prueba de Aptitud Académica) scores, and interview",
+                    "Application opens: October 2026 for August 2027 entry",
+                    "Submit application online at admision.tec.mx",
+                    "Provide: high school transcripts, CURP, birth certificate, proof of address",
+                    "Interview with admissions committee (December 2026 - March 2027)",
+                    "Admission decision: 2-4 weeks after interview",
+                    "Financial aid application deadline: March 2027"
+                ],
+                whenToStart: "Start application process in October-November 2026; complete by January 2027 for best scholarship consideration"
+            },
+            {
+                id: "uag",
+                name: "Universidad Autónoma de Guadalajara",
+                shortName: "UAG",
+                city: "Guadalajara",
+                type: "Private",
+                costHeadline: "~$50,285 MXN / trimester or ~$251,425 MXN / year (5 trimesters)",
+                costDetail: [
+                    "Billed by trimester (UAG runs five trimesters per year): 2024–2025 rate is about $50,285 MXN per trimester for many engineering programs.",
+                    "Admission fee: $3,680 MXN. Initial enrollment fee: $4,100 MXN. Per-trimester services: $4,890 MXN.",
+                    "Annual cost for a typical engineering student is roughly $251,425 MXN (five trimesters).",
+                    "Total over four years can exceed $1,000,000 MXN unless offset by scholarships."
+                ],
+                faculties: [
+                    "Ingeniería Civil",
+                    "Ingeniería Industrial",
+                    "Ingeniería en Electrónica y Sistemas Computacionales",
+                    "Ingeniería Mecánica Eléctrica",
+                    "Ingeniería Química",
+                    "Arquitectura"
+                ],
+                description: [
+                    "UAG is a private university founded in 1935. It does not list a standalone Physics or Chemistry licenciatura, but offers Ingeniería Química and a variety of engineering programs.",
+                    "The main campus is in Zapopan (metropolitan Guadalajara). UAG also has a medical school and law school, and claims SACSCOC accreditation (a US regional accreditor), making credits more transferable internationally."
+                ],
+                becas: [
+                    "Beca Fundación Semper Altius: requires family income verification and minimum 7.0 high school average; covers 10–50% of tuition.",
+                    "Beca Deportiva and Beca Cultural: partial coverage for athletes or students with artistic achievements.",
+                    "Beca Académica: available for high school averages of 9.0+; can cover 20–50% of trimester fees.",
+                    "Financing and installment plans available directly through UAG's Financiamiento Educativo."
+                ],
+                website: "https://www.uag.mx/",
+                facultyLinks: [
+                    { name: "Escuela de Ingeniería", url: "https://www.uag.mx/escuelas/ingenieria/" },
+                    { name: "Ingeniería Química", url: "https://www.uag.mx/carreras/ingenieria-quimica" },
+                    { name: "Ingeniería Civil", url: "https://www.uag.mx/carreras/ingenieria-civil" }
+                ],
+                entranceProcess: [
+                    "Open admissions with entrance exam (EXANI-II or UAG's own exam)",
+                    "Applications open: January 2027 for August 2027 entry",
+                    "Apply online at admisiones.uag.mx",
+                    "Required documents: high school certificate, transcripts, CURP, birth certificate, 6 photos",
+                    "Entrance exam dates: March-June 2027 (multiple dates available)",
+                    "Admission decision within 1-2 weeks after exam",
+                    "Registration and enrollment: June-July 2027",
+                    "Classes start: First week of August 2027 (trimester 1)"
+                ],
+                whenToStart: "Begin application in January-February 2027; take entrance exam by May 2027"
+            },
+            {
+                id: "iteso",
+                name: "ITESO, Universidad Jesuita de Guadalajara",
+                shortName: "ITESO",
+                city: "Guadalajara",
+                type: "Private",
+                costHeadline: "~$37,000–$43,000 MXN / semester (credit-based)",
+                costDetail: [
+                    "Billed per credit: $925 MXN. Typical engineering load is 40–46 credits per semester.",
+                    "One-time admission fee: $11,000 MXN. Per-semester enrollment: $6,350 MXN, plus student services $1,650 MXN and technology $700 MXN.",
+                    "Estimated annual cost: roughly $86,000 MXN for 43-credit semesters.",
+                    "Total four-year cost approaches $344,000 MXN, not including materials or housing."
+                ],
+                faculties: [
+                    "Ingeniería Civil (CACEI-accredited)",
+                    "Ingeniería Electrónica",
+                    "Ingeniería Industrial",
+                    "Ingeniería Química (CACEI-accredited)",
+                    "Ingeniería en Computación",
+                    "Ingeniería Ambiental"
+                ],
+                description: [
+                    "ITESO is a Jesuit university emphasizing social responsibility, critical thinking, and applied engineering. No standalone Physics or Chemistry degree, but Ingeniería Química and other engineering programs include rigorous chemistry and physics coursework.",
+                    "Strong industry partnerships in Guadalajara's automotive and electronics clusters provide internships and research opportunities."
+                ],
+                becas: [
+                    "Programa Impulso ITESO: need-based scholarship up to 90% tuition coverage; requires socioeconomic study and minimum 8.0 high school average.",
+                    "Beca Académica: for high school averages 9.0+; covers 10–50%.",
+                    "Beca de Colaboración: work-study program reduces tuition by 20–30% in exchange for 10–15 hours/week of campus service.",
+                    "External scholarships via Fundación ITESO and corporate sponsors (Bosch, Intel, HP) for STEM students."
+                ],
+                website: "https://www.iteso.mx/",
+                facultyLinks: [
+                    { name: "Departamento de Electrónica, Sistemas e Informática", url: "https://www.iteso.mx/web/general/detalle?group_id=13568" },
+                    { name: "Ingeniería Química", url: "https://www.iteso.mx/licenciaturas/ingenieria_quimica" },
+                    { name: "Ingeniería Civil", url: "https://www.iteso.mx/licenciaturas/ingenieria_civil" }
+                ],
+                entranceProcess: [
+                    "Admission based on high school grades and socioeconomic profile (for scholarship consideration)",
+                    "No entrance exam for most engineering programs",
+                    "Application period: January-May 2027 for August 2027 entry",
+                    "Apply online at admision.iteso.mx",
+                    "Submit: high school certificate (or proof of pending graduation), transcripts, CURP, birth certificate",
+                    "Socioeconomic study required for Programa Impulso scholarship (deadline: March 2027)",
+                    "Admission decision: 2-3 weeks after completing application",
+                    "Enrollment period: June-July 2027",
+                    "Orientation and class start: Mid-August 2027"
+                ],
+                whenToStart: "Start application in January 2027; complete by March 2027 for scholarship consideration"
+            },
+            {
+                id: "buap",
+                name: "Benemérita Universidad Autónoma de Puebla",
+                shortName: "BUAP",
+                city: "Puebla",
+                type: "Public",
+                costHeadline: "~$200–$1,550 MXN / semester (public university fees)",
+                costDetail: [
+                    "Official tuition: $200 MXN per semester. Registration and credential fees add roughly $500–$1,350 MXN.",
+                    "Campus access requires a QR code (credencial BUAP); non-students cannot freely enter. Organized architectural and campus tours are occasionally offered for prospective students.",
+                    "Materials/equipment for engineering/sciences: ~$5,000–$10,000 MXN per year.",
+                    "Annual out-of-pocket estimate: $11,000–$23,000 MXN including all fees and materials."
+                ],
+                faculties: [
+                    "Física (Facultad de Ciencias Físico Matemáticas)",
+                    "Química (Facultad de Ciencias Químicas)",
+                    "Ingeniería Química (CACEI-accredited)",
+                    "Ingeniería Civil (CACEI-accredited)",
+                    "Ingeniería Industrial",
+                    "Licenciatura en Ciencias de la Computación"
+                ],
+                description: [
+                    "BUAP is the main public university in Puebla, offering standalone Physics and Chemistry degrees plus numerous engineering programs.",
+                    "Known for research output in physics (optics, materials) and chemistry (catalysis, polymers). Admission is by entrance exam (EXUBUAP) administered twice per year."
+                ],
+                becas: [
+                    "Beca de Manutención (federal): ~$1,600 MXN/month for students in PROSPERA or similar social programs.",
+                    "Beca Académica BUAP: merit-based (8.5+ average); covers 50–100% of tuition and fees.",
+                    "Beca Alimenticia: subsidized meals at university dining halls for low-income students.",
+                    "Programs for indigenous students and students with disabilities also exist."
+                ],
+                website: "https://www.buap.mx/",
+                facultyLinks: [
+                    { name: "Facultad de Ciencias Físico Matemáticas", url: "https://www.fcfm.buap.mx/" },
+                    { name: "Facultad de Ciencias Químicas", url: "https://www.fcq.buap.mx/" },
+                    { name: "Facultad de Ingeniería Química", url: "https://www.fiq.buap.mx/" },
+                    { name: "Admisiones (EXUBUAP)", url: "https://admision.buap.mx/" }
+                ],
+                entranceProcess: [
+                    "📅 Convocatoria published: February 23, 2027",
+                    "Online registration (programs with special requirements): March 2-7, 2027",
+                    "General online registration: April 21-28, 2027 (by CURP first letter)",
+                    "Download and pay EXANI-II-EPIU fee: April 21-29, 2027",
+                    "Document validation: April 22 - May 2, 2027",
+                    "Practice exam: June 6, 2027",
+                    "Official EXANI-II-EPIU exam (online 'from home'): June 20-27, 2027",
+                    "📢 Results published: July 18, 2027 at 10:00 AM at autoservicios.buap.mx",
+                    "Enrollment: August 2027 (specific dates in enrollment convocatoria)",
+                    "Classes start: August 2027 (Otoño semester)"
+                ],
+                whenToStart: "Monitor admision.buap.mx starting February 2027; register in April 2027"
+            },
+            {
+                id: "udlap",
+                name: "Universidad de las Américas Puebla",
+                shortName: "UDLAP",
+                city: "Puebla",
+                type: "Private",
+                costHeadline: "~$125,130–$145,650 MXN / semester (credit-based)",
+                costDetail: [
+                    "Billed per credit: $2,930 MXN. Engineering load is typically 42.7–49.7 credits per semester.",
+                    "One-time application fee: $1,000 MXN. Admission fee: $10,000 MXN. Per-semester enrollment: $5,000 MXN, plus student services $5,000 MXN.",
+                    "Annual cost: roughly $260,000–$301,000 MXN depending on program and credit load.",
+                    "Total four-year cost can approach or exceed $1,200,000 MXN before scholarships."
+                ],
+                faculties: [
+                    "Ingeniería Civil (CACEI-accredited)",
+                    "Ingeniería Química (CACEI-accredited)",
+                    "Ingeniería Industrial (CACEI-accredited)",
+                    "Ingeniería Electrónica",
+                    "Ingeniería en Computación",
+                    "Ingeniería Mecatrónica",
+                    "Licenciatura en Ciencias (Physics track available through interdisciplinary program)"
+                ],
+                description: [
+                    "UDLAP is a private bilingual university with US-style campus and semester system. Many courses taught in English, and credits often transfer directly to US universities.",
+                    "Strong engineering programs with ABET-equivalent CACEI accreditation. Also offers a liberal-arts Licenciatura en Ciencias with Physics emphasis, though no standalone Physics or Chemistry licenciatura."
+                ],
+                becas: [
+                    "Beca Académica: requires high school average 9.0+ or SAT 1200+; covers 10–100% of tuition.",
+                    "Beca Liderazgo and Beca Deportiva: partial coverage for demonstrated leadership or athletic achievement.",
+                    "Apoyo Educativo UDLAP: need-based grant for students from families earning under $20,000 MXN/month; can cover 20–80% of costs.",
+                    "External scholarships via FUNED, FIDERH, and corporate partners. Payment plans available through Santander and HSBC."
+                ],
+                website: "https://www.udlap.mx/",
+                facultyLinks: [
+                    { name: "School of Engineering", url: "https://www.udlap.mx/ofertaacademica/Default.aspx?clavescuela=7" },
+                    { name: "Ingeniería Química", url: "https://www.udlap.mx/ofertaacademica/detallecarrera.aspx?cvecarrera=LIQ" },
+                    { name: "Ingeniería Civil", url: "https://www.udlap.mx/ofertaacademica/detallecarrera.aspx?cvecarrera=LIC" },
+                    { name: "Admissions", url: "https://www.udlap.mx/admisiones/" }
+                ],
+                entranceProcess: [
+                    "Rolling admissions for Fall 2027 (August start)",
+                    "Application opens: October 2026",
+                    "Standardized test required: SAT, ACT, or EXANI-II (minimum scores apply)",
+                    "Apply online at admisiones.udlap.mx",
+                    "Submit: high school transcripts, test scores, essay, recommendation letters, CURP, birth certificate",
+                    "English proficiency: TOEFL/IELTS scores (or take UDLAP placement test)",
+                    "Interview (in-person or virtual): January-April 2027",
+                    "Admission decisions: rolling (2-4 weeks after complete application)",
+                    "Scholarship decisions: March-April 2027",
+                    "Enrollment deposit deadline: May 2027",
+                    "Orientation: Mid-August 2027",
+                    "Classes start: Late August 2027"
+                ],
+                whenToStart: "Begin application in October-November 2026; complete by February 2027 for best scholarship chances"
+            },
+            {
+                id: "tecpue",
+                name: "Tec de Monterrey — Campus Puebla",
+                shortName: "Tec Puebla",
+                city: "Puebla",
+                type: "Private",
+                costHeadline: "~$167,000–$178,000 MXN / semester (same as Guadalajara campus)",
+                costDetail: [
+                    "Credit cost: $3,925 MXN (Engineering), $4,175 MXN (Architecture).",
+                    "Typical semester load: 42.5–46 credits for Engineering.",
+                    "One-time admission: $12,520 MXN. New-student service: $9,640 MXN. Per-semester activity fee: $3,430 MXN.",
+                    "Annual estimate: $344,000–$366,000 MXN."
+                ],
+                faculties: [
+                    "Ingeniería en Sistemas Computacionales",
+                    "Ingeniería Industrial y de Sistemas",
+                    "Ingeniería en Mecatrónica",
+                    "Ingeniería en Biotecnología",
+                    "Ingeniería Civil"
+                ],
+                description: [
+                    "Tec Puebla is part of the Tecnológico de Monterrey system. Programs, credit costs, and scholarship structures mirror other Tec campuses.",
+                    "No standalone Physics or Chemistry degree, but strong applied STEM programs with bilingual instruction and international accreditation."
+                ],
+                becas: [
+                    "Beca Líderes del Mañana: merit/need-based, up to 100% tuition coverage; requires 9.0+ average.",
+                    "Beca Excelencia Académica: 10–90% based on high school GPA and admission exam; renewable each semester with 85+ average.",
+                    "Beca Talento: 10–50% for extracurricular achievements (sports, arts, community service).",
+                    "Payment plans via Santander, BBVA, Scotiabank; monthly installments over 24–48 months."
+                ],
+                website: "https://tec.mx/es/puebla",
+                facultyLinks: [
+                    { name: "School of Engineering and Sciences", url: "https://tec.mx/es/ingenieria-y-ciencias" },
+                    { name: "Ingeniería en Biotecnología", url: "https://tec.mx/es/carreras-profesionales/ingeniero-en-biotecnologia" },
+                    { name: "Ingeniería en Sistemas Computacionales", url: "https://tec.mx/es/carreras-profesionales/ingeniero-en-sistemas-computacionales" }
+                ],
+                entranceProcess: [
+                    "Same admission process as Tec Guadalajara (unified Tec de Monterrey system)",
+                    "Rolling admissions with multiple entry periods",
+                    "No entrance exam - admission based on high school grades, PAA scores, and interview",
+                    "Application opens: October 2026 for August 2027 entry",
+                    "Submit application online at admision.tec.mx (select Campus Puebla)",
+                    "Provide: high school transcripts, CURP, birth certificate, proof of address",
+                    "Interview with admissions committee (December 2026 - March 2027)",
+                    "Admission decision: 2-4 weeks after interview",
+                    "Financial aid application deadline: March 2027",
+                    "Classes start: August 2027"
+                ],
+                whenToStart: "Start application process in October-November 2026; complete by January 2027"
+            },
+            {
+                id: "upaep",
+                name: "Universidad Popular Autónoma del Estado de Puebla",
+                shortName: "UPAEP",
+                city: "Puebla",
+                type: "Private",
+                costHeadline: "~$44,400–$68,080 MXN / semester (credit-based)",
+                costDetail: [
+                    "Billed per credit: $1,480 MXN/unit; typical semester load is 30–46 credits depending on program.",
+                    "One-time enrollment fees: $9,290 MXN (includes insurance, credentials, evaluation).",
+                    "Annual estimate: roughly $98,000 MXN for most engineering programs."
+                ],
+                faculties: [
+                    "Ingeniería Química Industrial (CACEI-accredited)",
+                    "Ingeniería Industrial",
+                    "Ingeniería Mecatrónica",
+                    "Ingeniería Civil",
+                    "Ingeniería Aeroespacial",
+                    "Ingeniería Biónica"
+                ],
+                description: [
+                    "A private Catholic university founded in 1973 with over 43 undergraduate programs and strong engineering focus.",
+                    "Complejo de Ingenierías houses 45 specialized laboratories: 34 for teaching, 4 for research, 7 for industrial service."
+                ],
+                becas: [
+                    "Beca STEM: up to 100% tuition coverage including graduation costs for incoming engineering students.",
+                    "Beca Académica and Beca de Liderazgo: varying percentage coverage based on academic performance or leadership.",
+                    "Financing available through LAUDEX and FIDERH for medium and long-term payment plans.",
+                    "Minimum 7.0 high school average required for admission; no additional entrance requirements."
+                ],
+                website: "https://www.upaep.mx/",
+                facultyLinks: [
+                    { name: "Ingenierías", url: "https://upaep.mx/licenciaturas" },
+                    { name: "Ingeniería Química Industrial", url: "https://www.upaep.mx/directorio-express" },
+                    { name: "Becas", url: "https://www.upaep.mx/becas" }
+                ],
+                entranceProcess: [
+                    "Open admissions - no entrance exam required",
+                    "Minimum requirement: 7.0 high school average",
+                    "Application period: November 2026 - June 2027 for August 2027 entry",
+                    "Apply online at admisiones.upaep.mx",
+                    "Submit: high school certificate (or proof of pending graduation), transcripts, CURP, birth certificate, proof of address",
+                    "BECA STEM application deadline: March 2027 (for 100% tuition scholarship)",
+                    "Admission decision: 1-2 weeks after submitting complete application",
+                    "Enrollment and payment: July 2027",
+                    "Orientation: First week of August 2027",
+                    "Classes start: Mid-August 2027"
+                ],
+                whenToStart: "Apply between November 2026-March 2027 for best scholarship opportunities"
+            },
+            {
+                id: "unam",
+                name: "Universidad Nacional Autónoma de México",
+                shortName: "UNAM",
+                city: "Mexico City",
+                type: "Public",
+                costHeadline: "$0.25 MXN / year (symbolic annual fee)",
+                costDetail: [
+                    "Admission exam fee: $490 MXN. Printed study guide: $50 MXN (digital version free).",
+                    "Annual enrollment: $0.25 MXN (symbolic). No monthly tuition.",
+                    "Materials/equipment cost: ~$7,000 MXN/year for engineering/sciences (labs, instruments, tools).",
+                    "Total first-year cost estimate: ~$7,540 MXN including all fees and materials."
+                ],
+                faculties: [
+                    "Facultad de Ingeniería — 15 engineering programs including Civil, Mechanical, Electrical, Computer, Aerospace",
+                    "Facultad de Química — Ingeniería Química (CACEI-accredited)",
+                    "Facultad de Ciencias — Física, Matemáticas, Ciencias de la Computación",
+                    "All programs at Ciudad Universitaria campus"
+                ],
+                description: [
+                    "Mexico's flagship public university and largest in Latin America, consistently ranked #1 in Mexico and top 100 globally.",
+                    "Highly competitive admission: assigned by entrance exam score or pase reglamentado (automatic admission from UNAM high schools).",
+                    "World-class research facilities, libraries, and laboratories with minimal cost to students."
+                ],
+                becas: [
+                    "Beca de Fortalecimiento Académico: $5,700 MXN per semester for students with 8.5+ average and family income under 9 minimum wages.",
+                    "Beca Mujeres Universitarias: $5,700 MXN per semester for women in physics/math/engineering programs.",
+                    "Multiple federal and institutional scholarships available through www.becarios.unam.mx.",
+                    "No minimum GPA required for admission, only for scholarship eligibility."
+                ],
+                website: "https://www.unam.mx/",
+                facultyLinks: [
+                    { name: "Facultad de Ingeniería", url: "https://www.ingenieria.unam.mx/" },
+                    { name: "Facultad de Química", url: "https://quimica.unam.mx/" },
+                    { name: "Facultad de Ciencias", url: "https://www.fciencias.unam.mx/" },
+                    { name: "Admisiones", url: "https://www.dgae.unam.mx/" }
+                ],
+                entranceProcess: [
+                    "📅 Convocatoria published: January 12, 2027",
+                    "Online registration: January 23 - February 3, 2027",
+                    "Purchase and download exam guide: January 2027 ($50 MXN print, free digital)",
+                    "Pay exam fee: $490 MXN during registration period",
+                    "📚 Entrance exam (online): May 23 - June 10, 2027 (120 questions, specific date assigned)",
+                    "📢 Results published: July 17, 2027",
+                    "Enrollment: August 3-7, 2027",
+                    "🎓 Classes start: August 10, 2027",
+                    "Alternative: Pase Reglamentado (automatic admission for UNAM high school graduates with 7.0+ average) - register April 6-15, 2027",
+                    "Very competitive: Only 10-12% of applicants are accepted"
+                ],
+                whenToStart: "Start studying from exam guide in November 2026; register in January 2027; study intensively January-May 2027"
+            },
+            {
+                id: "ipn",
+                name: "Instituto Politécnico Nacional",
+                shortName: "IPN",
+                city: "Mexico City",
+                type: "Public",
+                costHeadline: "$525 MXN exam fee / ~$50 USD per year tuition",
+                costDetail: [
+                    "Admission exam fee: $525 MXN (national) / $1,025 MXN (international).",
+                    "Annual tuition: ~$50 USD for domestic students, ~$1,000 USD for international students.",
+                    "No monthly tuition payments; minimal administrative fees per semester.",
+                    "Materials and lab equipment costs vary by program but are significantly lower than private universities."
+                ],
+                faculties: [
+                    "ESIME (Escuela Superior de Ingeniería Mecánica y Eléctrica) — 4 campuses: Azcapotzalco, Culhuacán, Ticomán, Zacatenco",
+                    "ESFM (Escuela Superior de Física y Matemáticas) — Licenciatura en Física y Matemáticas, Ingeniería Matemática",
+                    "ESIQIE (Escuela Superior de Ingeniería Química e Industrias Extractivas) — Química Industrial, Petrolera, Metalurgia",
+                    "Multiple UPII campuses in Guanajuato, Hidalgo, Puebla, Tlaxcala, Zacatecas"
+                ],
+                description: [
+                    "Mexico's premier public technical university, founded 1936, specializing in engineering, physics, mathematics, and applied sciences.",
+                    "ESFM offers one of the few pure Physics & Mathematics degrees at public university cost with strong research focus.",
+                    "Admission by entrance exam only; no minimum high school GPA required, only completion of bachillerato."
+                ],
+                becas: [
+                    "IPN-Bécalos: $7,200 MXN per semester for students with 8.0+ average (Engineering/Physics) or 8.5+ (Social Sciences).",
+                    "Payment split: $3,600 from IPN, $3,600 from Fundación Politécnico.",
+                    "500 scholarships available per semester; requires Mexican nationality and enrollment in escolarizada (full-time) mode.",
+                    "Additional federal scholarships (BENITO JUÁREZ, etc.) also available to IPN students."
+                ],
+                website: "https://www.ipn.mx/",
+                facultyLinks: [
+                    { name: "ESFM - Física y Matemáticas", url: "https://www.esfm.ipn.mx/" },
+                    { name: "ESIME Azcapotzalco", url: "https://esimeazc.ipn.mx/" },
+                    { name: "ESIQIE - Ingeniería Química", url: "http://www.esiqie.ipn.mx/" },
+                    { name: "Admisiones", url: "https://www.admision.ipn.mx/" }
+                ],
+                entranceProcess: [
+                    "IPN has two admission periods per year - apply for the FIRST period for August 2027 start",
+                    "📅 First period convocatoria: November 2026 (for August 2027 - January 2027 semester)",
+                    "Online pre-registration: December 2026 - January 2027 (organized by surname first letter)",
+                    "Pay exam fee: $525 MXN (national) / $1,025 MXN (international)",
+                    "Document submission and photo capture: January-February 2027",
+                    "📚 Entrance exam (online): February-March 2027 (120 questions, 3 hours)",
+                    "📢 Results published: April 2027",
+                    "Enrollment at assigned school (ESFM, ESIME, ESIQIE): May-June 2027",
+                    "🎓 Classes start: August 2027",
+                    "Very competitive: Acceptance rates vary by program (5-20%)"
+                ],
+                whenToStart: "Monitor www.admision.ipn.mx starting November 2026; apply immediately when convocatoria opens"
+            }
+        ];
+        
+        function createTabs() {
+            const tabsContainer = document.getElementById('universityTabs');
+            const contentContainer = document.getElementById('tabsContent');
+            
+            universities.forEach((uni, index) => {
+                // Create tab button
+                const tab = document.createElement('button');
+                tab.className = 'tab' + (index === 0 ? ' active' : '');
+                tab.textContent = uni.shortName;
+                tab.onclick = () => switchTab(uni.id);
+                tabsContainer.appendChild(tab);
+                
+                // Create tab content
+                const content = document.createElement('div');
+                content.className = 'tab-content' + (index === 0 ? ' active' : '');
+                content.id = `content-${uni.id}`;
+                content.innerHTML = createUniversityCard(uni);
+                contentContainer.appendChild(content);
+            });
+        }
+        
+        function switchTab(id) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`content-${id}`).classList.add('active');
+        }
+        
+        function createUniversityCard(uni) {
+            return `
+                <div class="university-card">
+                    <div class="university-header">
+                        <h2 class="university-name">${uni.name}</h2>
+                        <span class="badge ${uni.type.toLowerCase()}">${uni.type === "Public" ? "Public university" : "Private university"}</span>
+                        <div style="margin-top: 10px; color: #666;">
+                            <strong>City:</strong> ${uni.city}
+                        </div>
+                    </div>
+                    
+                    <div class="section" style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <div class="section-title" style="color: #0d47a1;">📅 Entrance Process for August 2027 Start</div>
+                        ${uni.entranceProcess ? uni.entranceProcess.map(item => `<div class="list-item" style="border-color: #90caf9;">${item}</div>`).join('') : ''}
+                        <div style="margin-top: 15px; padding: 12px; background: white; border-radius: 6px; border-left: 4px solid #1976d2;">
+                            <strong>⏰ When to Start:</strong> ${uni.whenToStart || 'Contact admissions office for specific dates'}
+                        </div>
+                    </div>
+                    
+                    <div class="cost-headline">${uni.costHeadline}</div>
+                    
+                    <div class="section">
+                        <div class="section-title">Cost Details</div>
+                        ${uni.costDetail.map(item => `<div class="list-item">${item}</div>`).join('')}
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Programs & Faculties</div>
+                        ${uni.faculties.map(item => `<div class="list-item">${item}</div>`).join('')}
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Description</div>
+                        ${uni.description.map(item => `<div class="list-item">${item}</div>`).join('')}
+                    </div>
+                    
+                    ${uni.expertOpinions ? `
+                    <div class="section" style="background: #f0f7ff; padding: 20px; border-radius: 8px; border-left: 4px solid #1976d2;">
+                        <div class="section-title" style="color: #0d47a1;">🏆 Expert Analysis: Most Valuable Programs</div>
+                        ${uni.expertOpinions.map(section => `
+                            <div style="margin: 15px 0;">
+                                <strong style="color: #1976d2; font-size: 1.05em;">${section.title}</strong>
+                                ${section.items.map(item => `<div class="list-item" style="background: white; margin: 5px 0; padding: 8px; border-radius: 4px;">${item}</div>`).join('')}
+                            </div>
+                        `).join('')}
+                    </div>
+                    ` : ''}
+                    
+                    <div class="section">
+                        <div class="section-title">Financial Aid & Scholarships (Becas)</div>
+                        ${uni.becas.map(item => `<div class="list-item">${item}</div>`).join('')}
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Links</div>
+                        <div style="margin-bottom: 10px;">
+                            <strong>Official Website:</strong><br>
+                            <a href="${uni.website}" target="_blank" class="link">${uni.website} →</a>
+                        </div>
+                        ${uni.facultyLinks && uni.facultyLinks.length > 0 ? `
+                            <div>
+                                <strong>Faculty & Program Links:</strong><br>
+                                ${uni.facultyLinks.map(link => `
+                                    <a href="${link.url}" target="_blank" class="link">${link.name} →</a><br>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">Campus Photos</div>
+                        <div class="photos">
+                            <div class="photo-container">
+                                <div class="placeholder">Exterior photo placeholder</div>
+                                <div class="photo-caption">${uni.id === 'upaep' || uni.id === 'unam' || uni.id === 'ipn' ? 'Photo to be added' : 'Exterior view'}</div>
+                            </div>
+                            <div class="photo-container">
+                                <div class="placeholder">Interior photo placeholder</div>
+                                <div class="photo-caption">${uni.id === 'upaep' || uni.id === 'unam' || uni.id === 'ipn' ? 'Photo to be added' : 'Interior view'}</div>
+                            </div>
+                        </div>
+                        <p style="color: #666; font-size: 0.9em; margin-top: 10px;">
+                            Note: Campus photos are placeholders in this web version. The original canvas includes actual campus images for Guadalajara and Puebla universities.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Initialize on load
+        createTabs();
+    </script>
+</body>
+</html>
